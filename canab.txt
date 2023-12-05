@@ -1,0 +1,155 @@
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+const server = http.createServer((req, res) => {
+  if (req.url === '/' && req.method === 'GET') {
+    res.setHeader('Content-Type', 'text/html');
+    res.statusCode = 200;
+    res.write(`
+      <html>
+        <head>
+          <title>Video Upload Form</title>
+        </head>
+        <body>
+          <h1>Video Upload Form</h1>
+          <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="video" accept="video/*">
+            <br>
+            <button type="submit">Upload Video</button>
+          </form>
+          <br>
+          <video id="uploadedVideo" controls style="display: none; height:400px; width: 500px" >
+            <source src="" type="video/mp4">
+          </video>
+          <script>
+            function handleFileSelect(event) {
+              const input = event.target;
+              if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                  const video = document.getElementById('uploadedVideo');
+                  const source = video.querySelector('source');
+                  source.src = e.target.result;
+                  video.style.display = 'block';
+                  video.load();
+                };
+                reader.readAsDataURL(input.files[0]);
+              }
+            }
+            document.querySelector('input[type="file"]').addEventListener('change', handleFileSelect);
+          </script>
+        </body>
+      </html>
+    `);
+    res.end();
+  } 
+});
+
+const port = 500;
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+-----------------------------------------------------------------  
+// Node.js program to demonstrate the
+// fs.watch() method
+
+// Import the filesystem module
+const fs = require('fs');
+
+fs.watch("test.txt", (eventType, filename) => {
+console.log("\nThe file", filename, "waala hormarshay!");
+console.log("The type of change was:", eventType);
+});
+
+// Renaming the file to a new name
+setTimeout(
+() => fs.renameSync("test.txt", "new_file.txt"),
+100
+);
+
+// Renaming the file back to its old name
+setTimeout(
+() => fs.renameSync("new_file.txt", "test.txt"),
+200
+);
+
+// Changing the contents of the file
+setTimeout(
+() => fs.writeFileSync("test.txt",
+"madadaan loma baahna"), 300
+);
+------------------------------------
+
+  const fs=require('fs');
+  const zlib=require('zlib');
+  const inputFilePath='./miski.text.gz';
+  const outputFilePath='./miski_unzipped.text';
+  fs.createReadStream(inputFilePath)
+  .pipe(zlib.createGunzip())
+  .pipe(fs.createReadStream(outputFilePath))
+  .on("finish",()=>console.log("unzibed successfull"))
+------------------------------------------------------------
+const fs = require('fs');
+const { Transform } = require("stream");
+const fileStream= fs.createReadStream("./ali.txt");
+const transformedData= fs.createWriteStream("./miski.txt");
+
+const uppercase = new Transform({
+  transform(chunk, encoding, callback) {
+    callback(null, chunk.toString().toUpperCase());
+  },
+});
+
+fileStream.pipe(uppercase).pipe(transformedData);
+------------------------------------------------------
+
+
+const { PassThrough } = require("stream");
+const { createReadStream, createWriteStream } = require("fs");
+const readStream = createReadStream("./saabo.txt");
+const writeStream = createWriteStream("./newData1.txt");
+
+const tunnel = new PassThrough();
+                                                                                              
+tunnel.on("data", (chunk, err) => {
+  if(err) throw err;
+  console.log("hexa :", chunk.toString()); 
+});
+
+readStream.pipe(tunnel).pipe(writeStream);
+-------------------------------------------------   
+
+const nodemailer = require('nodemailer');
+
+// Create a transporter using the default SMTP transport
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: 'Miskiali491@gmail.com', // Your email
+      pass: '7372514misk' // Your password
+    }
+  });
+
+  // Set up email data
+const mailOptions = {
+    from: 'Miskiali491@gmail.com', // Sender's email address
+    to: 'asmaabukar91@gmail.com', // Recipient's email address
+    subject: 'Hello from Node.js', // Subject line
+    text: 'This is a test email sent from Node.js' // Plain text body
+  };
+
+  // Send email
+transporter.sendMail(mailOptions, function (error, info) {
+  if (error) {
+    console.log('Error occurred: ', error);
+  } else {
+    console.log('Email sent successfully: ', info.response);
+  }
+
+
+  
+}
+);
+
+                                                                                                                   
